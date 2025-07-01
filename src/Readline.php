@@ -37,6 +37,8 @@ class Readline extends EventEmitter implements ReadableStreamInterface
     private $autocomplete = null;
     private $autocompleteSuggestions = 8;
 
+    private $base = null;
+    
     /**
      * @param ReadableStreamInterface $input
      * @param WritableStreamInterface $output
@@ -57,6 +59,8 @@ class Readline extends EventEmitter implements ReadableStreamInterface
         if ($base !== null && !$base instanceof EventEmitterInterface) { // manual type check to support legacy PHP < 7.1
             throw new \InvalidArgumentException('Argument #3 ($base) expected null|Evenement\EventEmitterInterface');
         }
+
+        $this->base = $base;
 
         $that = $this;
         $codes = array(
@@ -351,7 +355,7 @@ class Readline extends EventEmitter implements ReadableStreamInterface
             $this->redraw();
         }
 
-        $base->emit('input', array($this->linebuffer));
+        $this->base->emit('input', array($this->linebuffer));
         
         return $this;
     }
