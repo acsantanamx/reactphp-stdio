@@ -351,6 +351,8 @@ class Readline extends EventEmitter implements ReadableStreamInterface
             $this->redraw();
         }
 
+        $this->emit('input', array($this->linebuffer));
+        
         return $this;
     }
 
